@@ -17,40 +17,39 @@ public class UserServiceImpl implements UserService {
     private UserRepository repository;
 
     @Override
-    public ResponseEntity addUser(User user) {
-        repository.save(user);
-        return new ResponseEntity(user, HttpStatus.CREATED);
+    public User addUser(User user) {
+        return repository.save(user);
     }
 
     @Override
-    public ResponseEntity updateUser(int id, User user) {
-        getUserById(id).ifPresent(u -> {
-            if (user.getFirstName() != null) {
-                u.firstName(user.getFirstName());
-            }
-            if (user.getLastName() != null) {
-                u.lastName(user.getLastName());
-            }
-            repository.save(u);
-        });
-        return new ResponseEntity(HttpStatus.OK);
+    public User updateUser(int id, User user) {
+        User currentUser = getUserById(id).orElse(null);
+        if (currentUser == null) {
+            return null;
+        }
+        if (user.getFirstName() != null) {
+            currentUser.firstName(user.getFirstName());
+        }
+        if (user.getLastName() != null) {
+            currentUser.lastName(user.getLastName());
+        }
+        return repository.save(currentUser);
     }
 
     @Override
-    public ResponseEntity deleteUser(int id) {
+    public boolean deleteUser(int id) {
         repository.deleteById(id);
-        return new ResponseEntity(HttpStatus.OK);
+        return !getUserById(id).isPresent();
     }
 
     @Override
-    public ResponseEntity getUsers() {
-        List<User> users = repository.findAll();
-        return new ResponseEntity(users, HttpStatus.OK);
+    public List<User> getUsers() {
+        return repository.findAll();
     }
 
     @Override
-    public ResponseEntity getUsersCount() {
-        return null;
+    public long getUsersCount() {
+        return repository.count();
     }
 
     public Optional<User> getUserById(int id) {

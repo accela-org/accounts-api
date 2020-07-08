@@ -5,9 +5,9 @@ import org.springframework.http.ResponseEntity;
 
 public interface AddressService {
 
-    ResponseEntity addAddress(int userId, Address address);
+    Address addAddress(int userId, Address address) throws Exception;
 
-    ResponseEntity updateAddress(int id, Address address);
+    Address updateAddress(int id, Address address);
 
-    ResponseEntity deleteAddress(int id);
+    boolean deleteAddress(int id);
 }

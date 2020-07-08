@@ -5,6 +5,7 @@ import ie.accela.accounts.models.Address;
 import ie.accela.accounts.models.User;
 import ie.accela.accounts.users.dao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,41 +22,44 @@ public class AddressServiceImpl implements AddressService{
     private UserRepository userRepository;
 
     @Override
-    public ResponseEntity addAddress(int userId, Address address) {
+    public Address addAddress(int userId, Address address) throws Exception {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (!optionalUser.isPresent()) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            throw new Exception("User not found");
         }
         User user = optionalUser.get();
         address.user(user);
-        addressRepository.save(address);
-        return new ResponseEntity(HttpStatus.CREATED);
+        return addressRepository.save(address);
     }
 
     @Override
-    public ResponseEntity updateAddress(int id, Address address) {
-        addressRepository.findById(id)
-                .ifPresent(currentAddress -> {
-                    if (address.getStreet() != null) {
-                        currentAddress.street(address.getStreet());
-                    }
-                    if (address.getCity() != null) {
-                        currentAddress.city(address.getCity());
-                    }
-                    if (address.getState() != null) {
-                        currentAddress.state(address.getState());
-                    }
-                    if (address.getPostalCode() != null) {
-                        currentAddress.postalCode(address.getPostalCode());
-                    }
-                    addressRepository.save(currentAddress);
-                });
-        return new ResponseEntity(HttpStatus.OK);
+    public Address updateAddress(int id, Address address) {
+        Address currentAddress = addressRepository.findById(id).orElse(null);
+        if (currentAddress == null) {
+            return null;
+        }
+        if (address.getStreet() != null) {
+            currentAddress.street(address.getStreet());
+        }
+        if (address.getCity() != null) {
+            currentAddress.city(address.getCity());
+        }
+        if (address.getState() != null) {
+            currentAddress.state(address.getState());
+        }
+        if (address.getPostalCode() != null) {
+            currentAddress.postalCode(address.getPostalCode());
+        }
+        return addressRepository.save(currentAddress);
     }
 
     @Override
-    public ResponseEntity deleteAddress(int id) {
+    public boolean deleteAddress(int id) {
         addressRepository.deleteById(id);
-        return new ResponseEntity(HttpStatus.OK);
+        return !getAddressById(id).isPresent();
+    }
+
+    private Optional<Address> getAddressById(int id) {
+        return addressRepository.findById(id);
     }
 }

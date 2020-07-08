@@ -2,7 +2,12 @@ package ie.accela.accounts.models;
 
 import io.swagger.annotations.ApiModel;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.util.Objects;
 
 @ApiModel

@@ -3,15 +3,17 @@ package ie.accela.accounts.users;
 import ie.accela.accounts.models.User;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 public interface UserService {
 
-    ResponseEntity addUser(User user);
+    User addUser(User user);
 
-    ResponseEntity updateUser(int id, User user);
+    User updateUser(int id, User user);
 
-    ResponseEntity deleteUser(int id);
+    boolean deleteUser(int id);
 
-    ResponseEntity getUsers();
+    List<User> getUsers();
 
-    ResponseEntity getUsersCount();
+    long getUsersCount();
 }
