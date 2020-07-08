@@ -1,12 +1,11 @@
 package ie.accela.accounts.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.javafx.beans.IDProperty;
 import io.swagger.annotations.ApiModel;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @ApiModel
@@ -18,6 +17,10 @@ public class User {
     private Integer id;
     private String firstName;
     private String lastName;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Address> addresses;
 
     public Integer getId() {
         return id;

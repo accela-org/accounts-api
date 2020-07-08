@@ -16,7 +16,9 @@ public class Address {
     private String city;
     private String state;
     private String postalCode;
-    private Integer userId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
     public Integer getId() {
         return id;
@@ -83,16 +85,16 @@ public class Address {
         return this;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Address userId(Integer userId) {
-        this.userId = userId;
+    public Address user(User user) {
+        this.user = user;
         return this;
     }
 
@@ -106,12 +108,12 @@ public class Address {
                 Objects.equals(city, address.city) &&
                 Objects.equals(state, address.state) &&
                 Objects.equals(postalCode, address.postalCode) &&
-                Objects.equals(userId, address.userId);
+                Objects.equals(user, address.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, street, city, state, postalCode, userId);
+        return Objects.hash(id, street, city, state, postalCode, user);
     }
 
     @Override
@@ -122,7 +124,7 @@ public class Address {
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
                 ", postalCode='" + postalCode + '\'' +
-                ", userId=" + userId +
+                ", user=" + user +
                 '}';
     }
 }

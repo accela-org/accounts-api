@@ -2,27 +2,39 @@ package ie.accela.accounts.address;
 
 import ie.accela.accounts.address.dao.AddressRepository;
 import ie.accela.accounts.models.Address;
+import ie.accela.accounts.models.User;
+import ie.accela.accounts.users.dao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AddressServiceImpl implements AddressService{
 
     @Autowired
-    private AddressRepository repository;
+    private AddressRepository addressRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public ResponseEntity addAddress(int userId, Address address) {
-        address.userId(userId);
-        repository.save(address);
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (!optionalUser.isPresent()) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        User user = optionalUser.get();
+        address.user(user);
+        addressRepository.save(address);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @Override
     public ResponseEntity updateAddress(int id, Address address) {
-        repository.findById(id)
+        addressRepository.findById(id)
                 .ifPresent(currentAddress -> {
                     if (address.getStreet() != null) {
                         currentAddress.street(address.getStreet());
@@ -36,14 +48,14 @@ public class AddressServiceImpl implements AddressService{
                     if (address.getPostalCode() != null) {
                         currentAddress.postalCode(address.getPostalCode());
                     }
-                    repository.save(currentAddress);
+                    addressRepository.save(currentAddress);
                 });
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity deleteAddress(int id) {
-        repository.deleteById(id);
+        addressRepository.deleteById(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 }
