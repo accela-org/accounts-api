@@ -1,0 +1,1 @@
+insert into user values(0, 'Andrej', 'Lavrinovic');
