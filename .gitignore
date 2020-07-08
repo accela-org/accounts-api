@@ -5,5 +5,5 @@
 #mvn
 mvn*
 target
-*.md
+HELP.md
 
