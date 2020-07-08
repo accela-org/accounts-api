@@ -5,9 +5,6 @@ import ie.accela.accounts.models.Address;
 import ie.accela.accounts.models.User;
 import ie.accela.accounts.users.dao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

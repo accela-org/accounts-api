@@ -1,7 +1,6 @@
 package ie.accela.accounts.users;
 
 import ie.accela.accounts.models.User;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 

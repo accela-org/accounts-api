@@ -1,7 +1,6 @@
 package ie.accela.accounts.address;
 
 import ie.accela.accounts.models.Address;
-import org.springframework.http.ResponseEntity;
 
 public interface AddressService {
 
