@@ -71,14 +71,14 @@ public class AddressServiceTest {
                 .city(CITY_1)
                 .state(STATE_1)
                 .postalCode(POSTAL_CODE_1)
-                .user(user);
+                .userId(USER_ID);
 
         address2 = new Address()
                 .id(ID_2)
                 .city(CITY_2)
                 .state(STATE_2)
                 .postalCode(POSTAL_CODE_2)
-                .user(user);
+                .userId(USER_ID);
     }
 
     @Test
@@ -93,7 +93,7 @@ public class AddressServiceTest {
 
         // Then
         Assert.assertEquals(CITY_1, result.getCity());
-        Assert.assertEquals(user, result.getUser());
+        Assert.assertEquals(USER_ID, result.getUserId());
     }
 
     @Test

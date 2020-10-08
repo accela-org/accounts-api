@@ -1,29 +1,19 @@
 package ie.accela.accounts.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
+import org.springframework.data.annotation.Id;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import java.util.List;
 import java.util.Objects;
 
 @ApiModel
-@Entity
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String firstName;
     private String lastName;
-
-    @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    private List<Address> addresses;
+    private List<Address> address;
 
     public Integer getId() {
         return id;
@@ -64,19 +54,33 @@ public class User {
         return this;
     }
 
+    public List<Address> getAddress() {
+        return address;
+    }
+
+    public void setAddresses(List<Address> address) {
+        this.address = address;
+    }
+
+    public User address(List<Address> address) {
+        this.address = address;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id &&
-                Objects.equals(firstName, user.firstName) &&
-                Objects.equals(lastName, user.lastName);
+        return id.equals(user.id) &&
+                firstName.equals(user.firstName) &&
+                Objects.equals(lastName, user.lastName) &&
+                address.equals(user.address);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName);
+        return Objects.hash(id, firstName, lastName, address);
     }
 
     @Override
@@ -85,6 +89,7 @@ public class User {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", address=" + address +
                 '}';
     }
 }

@@ -24,8 +24,7 @@ public class AddressServiceImpl implements AddressService{
         if (!optionalUser.isPresent()) {
             throw new Exception("User not found");
         }
-        User user = optionalUser.get();
-        address.user(user);
+        address.userId(userId);
         return addressRepository.save(address);
     }
 
