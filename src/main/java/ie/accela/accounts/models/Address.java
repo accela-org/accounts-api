@@ -1,29 +1,19 @@
 package ie.accela.accounts.models;
 
 import io.swagger.annotations.ApiModel;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import java.util.Objects;
 
 @ApiModel
-@Entity
 public class Address {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String street;
     private String city;
     private String state;
     private String postalCode;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private int userId;
 
     public Integer getId() {
         return id;
@@ -90,16 +80,16 @@ public class Address {
         return this;
     }
 
-    public User getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public Address user(User user) {
-        this.user = user;
+    public Address userId(int userId) {
+        this.userId = userId;
         return this;
     }
 
@@ -108,17 +98,17 @@ public class Address {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Address address = (Address) o;
-        return Objects.equals(id, address.id) &&
-                Objects.equals(street, address.street) &&
-                Objects.equals(city, address.city) &&
-                Objects.equals(state, address.state) &&
-                Objects.equals(postalCode, address.postalCode) &&
-                Objects.equals(user, address.user);
+        return userId == address.userId &&
+                id.equals(address.id) &&
+                street.equals(address.street) &&
+                city.equals(address.city) &&
+                state.equals(address.state) &&
+                Objects.equals(postalCode, address.postalCode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, street, city, state, postalCode, user);
+        return Objects.hash(id, street, city, state, postalCode, userId);
     }
 
     @Override
@@ -129,7 +119,7 @@ public class Address {
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
                 ", postalCode='" + postalCode + '\'' +
-                ", user=" + user +
+                ", userId=" + userId +
                 '}';
     }
 }
